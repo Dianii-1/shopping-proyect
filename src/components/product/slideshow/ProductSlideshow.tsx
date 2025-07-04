@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Swiper as SwiperObject } from "swiper";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 import "swiper/css";
 import "./slideshow.css";
@@ -21,7 +21,7 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperObject>();
 
   return (
-    <div>
+    <div className={className}>
       <Swiper
         style={
           {
@@ -32,7 +32,8 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
         spaceBetween={10}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
+        modules={[FreeMode, Navigation, Thumbs, Autoplay]}
+        autoplay={{delay:2500}}
         className="mySwiper2"
       >
         {images.map((image) => (
@@ -42,6 +43,7 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
               src={`/products/${image}`}
               width={1024}
               height={800}
+              className="object-fill rounded-lg"
             />
           </SwiperSlide>
         ))}
