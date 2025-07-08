@@ -59,7 +59,7 @@ export default function () {
 
             {/* divider */}
 
-            <div className="w-full h-0.5 rounded bg-gray-200 mb-10"/>
+            <div className="w-full h-0.5 rounded bg-gray-200 mb-10" />
 
             <h2 className="text-2xl mb-2">Resumen de orden</h2>
             <div className="grid grid-cols-2">
@@ -77,6 +77,20 @@ export default function () {
             </div>
 
             <div className="mt-5 mb-2 w-full">
+              <p className="mb-5">
+                {/* Disclaimer */}
+                <span className="text-xs">
+                  Al hacer clic en "Colocar orden", aceptas nuestros{" "}
+                  <a href="#" className="underline">
+                    términos y condiciones
+                  </a>{" "}
+                  y{" "}
+                  <a href="#" className="underline">
+                    política de privacidad
+                  </a>
+                </span>
+              </p>
+
               <Link
                 className="flex btn-primary justify-center"
                 href={"/orders/123"}
