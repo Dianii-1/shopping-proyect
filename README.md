@@ -15,3 +15,5 @@
 ```npx prisma init --datasource-provider postgresql``` crea el prisma en mi proyecto, conectandose a una base de datos
 ```npx prisma migrate dev --name migrateName``` para generar una migracion
 ```npx prisma db pull``` para cuando tengo una tabla en la base de datos y quiero que esta se cree en mi schema
+```npm i -D ts-node``` comando para instalar una dependencia para que node me permita ejecutar codigo de typescript
+npx prisma generate generar el cliente de prisma
