@@ -14,6 +14,14 @@ async function main() {
     prisma.category.deleteMany(),
   ]);
 
+  //2. crear las categorias
+
+  const { categories } = initialData;
+
+  const categoritesDatabase = categories.map((name) => ({ name }));
+
+  await prisma.category.createMany({ data: categoritesDatabase });
+
   console.log("seed ejecutado correctamente");
 }
 
