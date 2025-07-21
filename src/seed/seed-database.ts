@@ -8,11 +8,14 @@ import prisma from "../lib/prisma";
 
 async function main() {
   // 1. borrar registros previos
-  Promise.all([
-    prisma.productImage.deleteMany(),
-    prisma.product.deleteMany(),
-    prisma.category.deleteMany(),
-  ]);
+  // no se puede realizar el promise.all por que al haber relacion entre ellos si se elimina uno antes
+  // entonces no podria tener relacion es por esto que se deja de a uno
+
+  // Promise.all([
+  await prisma.productImage.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
+  // ]);
 
   //2. crear las categorias
 
@@ -43,9 +46,15 @@ async function main() {
         categoryId: categoriesMap[type],
       },
     });
-  });
 
-  // 4. se crea las images con la relacion
+    // 4. se crea las images con la relacion
+    const imagesData = images.map((image) => ({
+      url: image,
+      productId: dbProduct.id,
+    }));
+
+    await prisma.productImage.createMany({ data: imagesData });
+  });
 }
 
 // se crea una funcion anonima para ejecutar el main
