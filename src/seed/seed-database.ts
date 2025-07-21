@@ -16,13 +16,36 @@ async function main() {
 
   //2. crear las categorias
 
-  const { categories } = initialData;
+  const { categories, products } = initialData;
 
-  const categoritesDatabase = categories.map((name) => ({ name }));
+  const categoritesDataSend = categories.map((name) => ({ name }));
 
-  await prisma.category.createMany({ data: categoritesDatabase });
+  // esto se realiza para poder hacer la relacion entre categorias y productos para saber el id de la categoria
+  await prisma.category.createMany({ data: categoritesDataSend });
 
-  console.log("seed ejecutado correctamente");
+  const categoriesDB = await prisma.category.findMany();
+
+  const categoriesMap = categoriesDB.reduce((map, category) => {
+    map[category.name.toLowerCase()] = category.id;
+
+    return map;
+  }, {} as Record<string, string>); // <string= categoryName, string= categoriId>
+
+  //3. se crean los productos, se saca el type y las images por que estas no hacen parte de la base de datos,
+  // pero se le agrega categoryId
+
+  products.forEach(async (product) => {
+    const { type, images, ...restProduct } = product;
+
+    const dbProduct = await prisma.product.create({
+      data: {
+        ...restProduct,
+        categoryId: categoriesMap[type],
+      },
+    });
+  });
+
+  // 4. se crea las images con la relacion
 }
 
 // se crea una funcion anonima para ejecutar el main
