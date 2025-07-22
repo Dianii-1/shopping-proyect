@@ -4,7 +4,8 @@ import prisma from "@/lib/prisma";
 
 export const getPaginatedProductsWithImages = async () => {
   try {
-    const products = await prisma.product.findMany({
+    const productsdb = await prisma.product.findMany({
+      //   take: 2,
       include: {
         ProductImage: {
           take: 2,
@@ -14,5 +15,14 @@ export const getPaginatedProductsWithImages = async () => {
         },
       },
     });
-  } catch (error) {}
+
+    return {
+      products: productsdb.map((product) => ({
+        ...product,
+        images: product.ProductImage.map((image) => image.url),
+      })),
+    };
+  } catch (error) {
+    throw new Error("No se pudio realizar la consulta");
+  }
 };
