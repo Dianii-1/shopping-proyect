@@ -61,14 +61,5 @@ async function main() {
 // esto solo debe correrse en modo desarrollo ya que si se realiza en produccion borra la base de datos
 (() => {
   if (process.env.NODE_ENV === "production") return;
-  main()
-    .then(async () => {
-      await prisma.$disconnect();
-    })
-    .catch(async (e) => {
-      console.error(e);
-      // 5
-      await prisma.$disconnect();
-      process.exit(1);
-    });
+  main();
 })();
