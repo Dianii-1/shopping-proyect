@@ -1,3 +1,5 @@
+export const revalidate = 60; // 60 segundos va a realizar la revalidacion de resto se mantiene en cache
+
 import { getPaginatedProductsWithImages } from "@/actions";
 import { Pagination, ProductGrid, Title } from "@/components";
 import { Gender } from "@/generated/prisma";
