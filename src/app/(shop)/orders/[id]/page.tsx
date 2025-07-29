@@ -2,7 +2,6 @@ import { Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
 import { IoCardOutline } from "react-icons/io5";
 
 const productsInCart = [
@@ -12,12 +11,12 @@ const productsInCart = [
 ];
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
-export default function ({ params }: Props) {
-  const { id } = params;
+export default async function ({ params }: Props) {
+  const { id } = await params;
 
   // Todo: Verificar Id
 
@@ -33,13 +32,13 @@ export default function ({ params }: Props) {
             <div
               className={clsx(
                 "flex gap-2 items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                { 
+                {
                   "bg-red-500": false,
-                  "bg-green-700":true
+                  "bg-green-700": true,
                 }
               )}
             >
-              <IoCardOutline size={30}/>
+              <IoCardOutline size={30} />
               <span>Pagado</span>
             </div>
 
@@ -96,18 +95,18 @@ export default function ({ params }: Props) {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-               <div
-              className={clsx(
-                "flex gap-2 items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                { 
-                  "bg-red-500": false,
-                  "bg-green-700":true
-                }
-              )}
-            >
-              <IoCardOutline size={30}/>
-              <span>Pagado</span>
-            </div>
+              <div
+                className={clsx(
+                  "flex gap-2 items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
+                  {
+                    "bg-red-500": false,
+                    "bg-green-700": true,
+                  }
+                )}
+              >
+                <IoCardOutline size={30} />
+                <span>Pagado</span>
+              </div>
             </div>
           </div>
         </div>

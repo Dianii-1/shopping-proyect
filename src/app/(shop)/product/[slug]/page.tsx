@@ -9,13 +9,13 @@ import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function ({ params }: Props) {
-  const { slug } = params;
+export default async function ({ params }: Props) {
+  const { slug } = await params;
 
   const product = initialData.products.find((product) => product.slug === slug);
 
