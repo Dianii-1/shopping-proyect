@@ -18,3 +18,18 @@
 ```npx prisma db pull``` para cuando tengo una tabla en la base de datos y quiero que esta se cree en mi schema
 ```npm i -D ts-node``` comando para instalar una dependencia para que node me permita ejecutar codigo de typescript
 npx prisma generate generar el cliente de prisma
+
+"scripts": {
+  // otros scripts...
+  "clean": "rimraf node_modules package-lock.json .next && npm cache clean --force && npm install"
+}
+npm install --save-dev rimraf
+Esto hará:
+
+Borrar las carpetas y archivos: node_modules, package-lock.json y .next
+
+Limpiar la caché de npm
+
+Instalar de nuevo todas las dependencias
+
+
