@@ -1,3 +1,5 @@
+export const revalidate = 604800; // revalidacion cada 7 dias
+import { getProductBySlug } from "@/actions";
 import {
   ProductMobileSlideshow,
   ProductSlideshow,
@@ -5,7 +7,6 @@ import {
   SizeSelector,
 } from "@/components";
 import { titleFont } from "@/config/fonts";
-import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -17,8 +18,8 @@ interface Props {
 export default async function ({ params }: Props) {
   const { slug } = await params;
 
-  const product = initialData.products.find((product) => product.slug === slug);
-
+  const product = await getProductBySlug(slug);
+  console.log(product);
   if (!product) {
     notFound();
   }
