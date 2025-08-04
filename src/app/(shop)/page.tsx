@@ -13,23 +13,22 @@ interface Props {
 }
 
 export default async function ({ searchParams }: Props) {
-  // const { page: pageParams } = await searchParams;
-  // const page = pageParams ? parseInt(pageParams) : 1;
+  const { page: pageParams } = await searchParams;
+  const page = pageParams ? parseInt(pageParams) : 1;
 
-  // const { products, totalPages } = await getPaginatedProductsWithImages({
-  //   page,
-  // });
+  const { products, totalPages } = await getPaginatedProductsWithImages({
+    page,
+  });
 
-  // if (products.length === 0) {
-  //   redirect("/");
-  // }
+  if (products.length === 0) {
+    redirect("/");
+  }
 
   return (
     <>
-      {/* <Title title="Tienda de productos" subtitle="todos los productos" />
+      <Title title="Tienda de productos" subtitle="todos los productos" />
       <ProductGrid products={products} />
-      <Pagination totalPages={totalPages} /> */}
-      <div>hola mundo</div>
+      <Pagination totalPages={totalPages} />
     </>
   );
 }
