@@ -20,7 +20,6 @@ export const StockLabel = ({ slug }: Props) => {
     getStock();
   }, []);
 
-  console.log(stock);
   return (
     <>
       {isLoading ? (
