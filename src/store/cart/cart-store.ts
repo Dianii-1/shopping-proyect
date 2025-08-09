@@ -1,5 +1,6 @@
 import { CartProduct } from "@/interfaces";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface State {
   cart: CartProduct[];
@@ -8,35 +9,44 @@ interface State {
   // removeProduct
 }
 
-export const useCartStore = create<State>()((set, get) => ({
-  cart: [],
+export const useCartStore = create<State>()(
+  // se va a utilizar persist para persistir el store en el localStorage
+  // como primer argumento se pasa la definicion del storage, y como segundo argumento el nombre que se quiere dar a la llaver en el localStorage
+  persist(
+    (set, get) => ({
+      cart: [],
 
-  // methods
+      // methods
 
-  addProductToCart: (product: CartProduct) => {
-    const { cart } = get();
+      addProductToCart: (product: CartProduct) => {
+        const { cart } = get();
 
-    // 1. Revisar si el producto existe en el carrito con la talla seleccionada
+        // 1. Revisar si el producto existe en el carrito con la talla seleccionada
 
-    const productInCart = cart.some(
-      (item) => item.id === product.id && item.size === product.size
-    );
+        const productInCart = cart.some(
+          (item) => item.id === product.id && item.size === product.size
+        );
 
-    if (!productInCart) {
-      set({ cart: [...cart, product] });
-      return;
+        if (!productInCart) {
+          set({ cart: [...cart, product] });
+          return;
+        }
+
+        // 2. Se que el producto existe por talla, hay que incrementar
+
+        const updateCartProducts = cart.map((item) => {
+          if (item.id === product.id && item.size === product.size) {
+            return { ...item, quantity: item.quantity + product.quantity };
+          }
+
+          return item;
+        });
+
+        set({ cart: updateCartProducts });
+      },
+    }),
+    {
+      name: "shopping-cart",
     }
-
-    // 2. Se que el producto existe por talla, hay que incrementar
-
-    const updateCartProducts = cart.map((item) => {
-      if (item.id === product.id && item.size === product.size) {
-        return { ...item, quantity: item.quantity + product.quantity };
-      }
-
-      return item;
-    });
-
-    set({ cart: updateCartProducts });
-  },
-}));
+  )
+);
