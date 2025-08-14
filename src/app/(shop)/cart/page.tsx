@@ -1,13 +1,6 @@
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
-import Link from "next/link";
+import { ProductsInCart, Title } from "@/components";
 
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
+import Link from "next/link";
 
 export default function () {
   return (
@@ -26,23 +19,7 @@ export default function () {
 
             {/* Items */}
 
-            {productsInCart.map((product) => (
-              <div key={product.slug} className="flex mb-5">
-                <Image
-                  alt={product.title}
-                  src={`/products/${product.images[0]}`}
-                  width={100}
-                  height={100}
-                  className="rounded mr-5"
-                />
-                <div>
-                  <p>{product.title}</p>
-                  <p>${product.price}</p>
-                  <QuantitySelector quantity={2} />
-                  <button className="underline mr-3">Remover</button>
-                </div>
-              </div>
-            ))}
+            <ProductsInCart />
           </div>
           {/* Checkout */}
 
@@ -63,9 +40,13 @@ export default function () {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-              <Link className="flex btn-primary justify-center" href={'/checkout/address'}>Checkout</Link>
+              <Link
+                className="flex btn-primary justify-center"
+                href={"/checkout/address"}
+              >
+                Checkout
+              </Link>
             </div>
-
           </div>
         </div>
       </div>
