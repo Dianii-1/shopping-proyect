@@ -12,3 +12,4 @@ export { Footer } from "./ui/footer/Footer";
 export { Pagination } from "./ui/pagination/Pagination";
 export { StockLabel } from "./product/stock-label/StockLabel";
 export { ProductsInCart } from "./cart/ProductsInCart";
+export { OrderSumary } from "./cart/OrderSumary";
