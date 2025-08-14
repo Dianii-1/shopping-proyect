@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Value } from "../../generated/prisma/runtime/library";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const ProductsInCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
@@ -22,6 +23,10 @@ export const ProductsInCart = () => {
 
   if (!loading) {
     return <div>Loading...</div>;
+  }
+
+  if (productsInCart.length === 0 && loading) {
+    redirect("/empty");
   }
 
   return (
