@@ -12,6 +12,7 @@ async function main() {
   // entonces no podria tener relacion es por esto que se deja de a uno
 
   // Promise.all([
+  await prisma.user.deleteMany();
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
@@ -19,7 +20,9 @@ async function main() {
 
   //2. crear las categorias
 
-  const { categories, products } = initialData;
+  const { categories, products, users } = initialData;
+
+  await prisma.user.createMany({ data: users });
 
   const categoritesDataSend = categories.map((name) => ({ name }));
 
