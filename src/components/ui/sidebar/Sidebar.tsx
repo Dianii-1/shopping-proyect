@@ -1,4 +1,5 @@
 "use client";
+import { logout } from "@/actions";
 import { titleFont } from "@/config/fonts";
 import { useUiStore } from "@/store";
 import clsx from "clsx";
@@ -82,13 +83,14 @@ export const Sidebar = () => {
           </span>
         </Link>
 
-        <Link
-          href={"/"}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        <button
+          // href={"/"}
+          className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={() => logout()}
         >
           <IoLogOutOutline size={30} />
           <span className={`${titleFont.className} ml-3 text-lg`}>Salir</span>
-        </Link>
+        </button>
 
         {/* line separator */}
 
