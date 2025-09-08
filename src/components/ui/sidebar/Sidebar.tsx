@@ -26,7 +26,10 @@ export const Sidebar = () => {
       )}
       {/* blur */}
       {isSideMenuOpen && (
-        <div onClick={()=> closeMenu()} className="fixed top-0 left-0 w-screen h-screen z-10 backdrop-blur-xs backdrop-filter" />
+        <div
+          onClick={() => closeMenu()}
+          className="fixed top-0 left-0 w-screen h-screen z-10 backdrop-blur-xs backdrop-filter"
+        />
       )}
       {/* sidemenu */}
       <nav
@@ -53,7 +56,8 @@ export const Sidebar = () => {
         {/* Menú */}
 
         <Link
-          href={"/"}
+          href={"/profile"}
+          onClick={() => closeMenu()}
           className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
         >
           <IoPersonOutline size={30} />
