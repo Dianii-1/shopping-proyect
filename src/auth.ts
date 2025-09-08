@@ -31,7 +31,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const { password: _, ...rest } = user;
 
-        console.log({ rest });
         return rest;
       },
     }),
