@@ -3,14 +3,24 @@
 import { authenticate } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link";
-import { useActionState } from "react";
-import { IoInfiniteOutline, IoInformationOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, formAction, isPending] = useActionState(
     authenticate,
     undefined
   );
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state === "Success") {
+      // redireccionar
+      router.replace("/");
+    }
+  }, [state]);
 
   return (
     <form action={formAction} className="flex flex-col">
