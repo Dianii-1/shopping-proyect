@@ -74,8 +74,9 @@ export const Sidebar = () => {
         </Link>
 
         <Link
-          href={"/"}
+          href={"/auth/login"}
           className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={() => closeMenu()}
         >
           <IoLogInOutline size={30} />
           <span className={`${titleFont.className} ml-3 text-lg`}>
@@ -86,7 +87,10 @@ export const Sidebar = () => {
         <button
           // href={"/"}
           className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => logout()}
+          onClick={() => {
+            logout();
+            closeMenu();
+          }}
         >
           <IoLogOutOutline size={30} />
           <span className={`${titleFont.className} ml-3 text-lg`}>Salir</span>
