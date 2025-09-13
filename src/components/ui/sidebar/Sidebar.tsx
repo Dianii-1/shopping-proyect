@@ -3,6 +3,7 @@ import { logout } from "@/actions";
 import { titleFont } from "@/config/fonts";
 import { useUiStore } from "@/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   IoCloseOutline,
@@ -18,6 +19,7 @@ import {
 export const Sidebar = () => {
   const isSideMenuOpen = useUiStore((state) => state.isSideMenuOpen);
   const closeMenu = useUiStore((state) => state.closeSideMenu);
+  const { data: session } = useSession();
 
   return (
     <div>
