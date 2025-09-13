@@ -13,3 +13,5 @@ export { Pagination } from "./ui/pagination/Pagination";
 export { StockLabel } from "./product/stock-label/StockLabel";
 export { ProductsInCart } from "./cart/ProductsInCart";
 export { OrderSumary } from "./cart/OrderSumary";
+
+export * from "./provider/Provider";
