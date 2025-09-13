@@ -21,6 +21,13 @@ export const Sidebar = () => {
   const closeMenu = useUiStore((state) => state.closeSideMenu);
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
+  const isAdmin = session?.user.role === "admin";
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.reload();
+    closeMenu();
+  };
 
   return (
     <div>
@@ -59,22 +66,45 @@ export const Sidebar = () => {
 
         {/* Menú */}
 
-        <Link
-          href={"/profile"}
-          onClick={() => closeMenu()}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoPersonOutline size={30} />
-          <span className={`${titleFont.className} ml-3 text-lg`}>Perfil</span>
-        </Link>
+        {isAuthenticated && (
+          <>
+            <Link
+              href={"/profile"}
+              onClick={() => closeMenu()}
+              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoPersonOutline size={30} />
+              <span className={`${titleFont.className} ml-3 text-lg`}>
+                Perfil
+              </span>
+            </Link>
 
-        <Link
-          href={"/"}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoTicketOutline size={30} />
-          <span className={`${titleFont.className} ml-3 text-lg`}>Ordenes</span>
-        </Link>
+            <Link
+              href={"/"}
+              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoTicketOutline size={30} />
+              <span className={`${titleFont.className} ml-3 text-lg`}>
+                Ordenes
+              </span>
+            </Link>
+
+            <button
+              // href={"/"}
+              className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+              onClick={() => {
+                // logout();
+                // closeMenu();
+                handleLogout();
+              }}
+            >
+              <IoLogOutOutline size={30} />
+              <span className={`${titleFont.className} ml-3 text-lg`}>
+                Salir
+              </span>
+            </button>
+          </>
+        )}
 
         {!isAuthenticated && (
           <Link
@@ -89,51 +119,43 @@ export const Sidebar = () => {
           </Link>
         )}
 
-        {isAuthenticated && (
-          <button
-            // href={"/"}
-            className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-            onClick={() => {
-              logout();
-              closeMenu();
-            }}
-          >
-            <IoLogOutOutline size={30} />
-            <span className={`${titleFont.className} ml-3 text-lg`}>Salir</span>
-          </button>
+        {isAdmin && (
+          <>
+            {/* line separator */}
+
+            <div className="w-full h-px bg-gray-200 my-10" />
+
+            <Link
+              href={"/"}
+              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoShirtOutline size={30} />
+              <span className={`${titleFont.className} ml-3 text-lg`}>
+                Productos
+              </span>
+            </Link>
+
+            <Link
+              href={"/"}
+              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoTicketOutline size={30} />
+              <span className={`${titleFont.className} ml-3 text-lg`}>
+                Ordenes
+              </span>
+            </Link>
+
+            <Link
+              href={"/"}
+              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoPeopleOutline size={30} />
+              <span className={`${titleFont.className} ml-3 text-lg`}>
+                Usuarios
+              </span>
+            </Link>
+          </>
         )}
-
-        {/* line separator */}
-
-        <div className="w-full h-px bg-gray-200 my-10" />
-
-        <Link
-          href={"/"}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoShirtOutline size={30} />
-          <span className={`${titleFont.className} ml-3 text-lg`}>
-            Productos
-          </span>
-        </Link>
-
-        <Link
-          href={"/"}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoTicketOutline size={30} />
-          <span className={`${titleFont.className} ml-3 text-lg`}>Ordenes</span>
-        </Link>
-
-        <Link
-          href={"/"}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoPeopleOutline size={30} />
-          <span className={`${titleFont.className} ml-3 text-lg`}>
-            Usuarios
-          </span>
-        </Link>
       </nav>
     </div>
   );
