@@ -20,6 +20,7 @@ export const Sidebar = () => {
   const isSideMenuOpen = useUiStore((state) => state.isSideMenuOpen);
   const closeMenu = useUiStore((state) => state.closeSideMenu);
   const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
 
   return (
     <div>
@@ -75,28 +76,32 @@ export const Sidebar = () => {
           <span className={`${titleFont.className} ml-3 text-lg`}>Ordenes</span>
         </Link>
 
-        <Link
-          href={"/auth/login"}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => closeMenu()}
-        >
-          <IoLogInOutline size={30} />
-          <span className={`${titleFont.className} ml-3 text-lg`}>
-            Ingresar
-          </span>
-        </Link>
+        {!isAuthenticated && (
+          <Link
+            href={"/auth/login"}
+            className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            onClick={() => closeMenu()}
+          >
+            <IoLogInOutline size={30} />
+            <span className={`${titleFont.className} ml-3 text-lg`}>
+              Ingresar
+            </span>
+          </Link>
+        )}
 
-        <button
-          // href={"/"}
-          className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => {
-            logout();
-            closeMenu();
-          }}
-        >
-          <IoLogOutOutline size={30} />
-          <span className={`${titleFont.className} ml-3 text-lg`}>Salir</span>
-        </button>
+        {isAuthenticated && (
+          <button
+            // href={"/"}
+            className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            onClick={() => {
+              logout();
+              closeMenu();
+            }}
+          >
+            <IoLogOutOutline size={30} />
+            <span className={`${titleFont.className} ml-3 text-lg`}>Salir</span>
+          </button>
+        )}
 
         {/* line separator */}
 
