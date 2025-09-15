@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -10,7 +11,11 @@ type FormInputs = {
 };
 
 export const RegisterForm = () => {
-  const { register, handleSubmit } = useForm<FormInputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>();
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const { email, name, password } = data;
@@ -22,22 +27,31 @@ export const RegisterForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <label htmlFor="email">Nombre completo</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
+        className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
+          "border-red-500": errors.name,
+        })}
         type="text"
+        autoFocus
         {...register("name", { required: true })}
       />
 
       <label htmlFor="email">Correo electrónico</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
+        className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
+          "border-red-500": errors.email,
+        })}
         type="email"
+        autoFocus
         {...register("email", { required: true })}
       />
 
       <label htmlFor="email">Contraseña</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
-        type="email"
+        className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
+          "border-red-500": errors.password,
+        })}
+        type="password"
+        autoFocus
         {...register("password", { required: true })}
       />
 
