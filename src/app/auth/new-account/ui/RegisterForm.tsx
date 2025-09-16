@@ -1,7 +1,9 @@
 "use client";
 
+import { RegisterUser } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type FormInputs = {
@@ -16,11 +18,19 @@ export const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
+  const [errorMessaje, setErrorMessaje] = useState("");
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const { email, name, password } = data;
-    console.log({ email, name, password });
+    setErrorMessaje("");
+    // console.log({ email, name, password });
     // server actions
+    const createUser = await RegisterUser(name, email, password);
+    if (!createUser.ok) {
+      setErrorMessaje(createUser.messaje!);
+      return;
+    }
+    console.log({ createUser });
   };
 
   return (
@@ -54,6 +64,8 @@ export const RegisterForm = () => {
         autoFocus
         {...register("password", { required: true })}
       />
+
+      <span className="text-red-500 text-sm mb-2">{errorMessaje}</span>
 
       <button className="btn-primary">Crear cuenta</button>
 
