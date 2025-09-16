@@ -50,5 +50,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user = token.data as any;
       return session;
     },
+    // authorized({ auth, request: { nextUrl } }) {
+    //   const isLoggedIn = !!auth?.user;
+    //   const isOnDashboard = nextUrl.pathname.startsWith("/checkout/address");
+    //   if (isOnDashboard) {
+    //     if (isLoggedIn) return true;
+    //     return Response.redirect(new URL("/auth/login")); // Redirect unauthenticated users to login page
+    //   } else if (isLoggedIn) {
+    //     return true;
+    //   }
+    //   return true;
+    // },
   },
 });
