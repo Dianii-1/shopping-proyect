@@ -1,26 +1,31 @@
 "use client";
 
 import clsx from "clsx";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-interface FormInputs {
-  firstName: string;
-  lastName: string;
-  address: string;
-  address2?: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  phone: string;
-  rememberAddress: boolean;
-}
+import * as z from "zod";
+
+const formInputs = z.object({
+  firstName: z.string().min(2),
+  lastName: z.string().min(2),
+  address: z.string().min(2),
+  address2: z.string().optional(),
+  postalCode: z.string().min(2),
+  city: z.string().min(2),
+  country: z.string().min(1),
+  phone: z.string().min(2),
+  rememberAddress: z.boolean(),
+});
+
+type FormInputs = z.infer<typeof formInputs>;
+
 export const AddressForm = () => {
   const {
     handleSubmit,
     register,
     formState: { isValid },
-  } = useForm<FormInputs>();
+  } = useForm<FormInputs>({ resolver: zodResolver(formInputs) });
 
   const onSubmit = (data: FormInputs) => {
     console.log({ data });
@@ -146,7 +151,7 @@ export const AddressForm = () => {
           //   className="btn-primary flex w-full sm:w-1/2 justify-center "
           className={clsx({
             "btn-primary": isValid,
-            "bg-gay-600 text-white py-2 px-4 rounded transition-all cursor-not-allowed":
+            "bg-gay-600 text-gray-600 py-2 px-4 rounded transition-all border border-gray-600 cursor-not-allowed":
               !isValid,
           })}
         >
