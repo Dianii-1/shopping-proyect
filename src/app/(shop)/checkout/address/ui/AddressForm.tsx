@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import * as z from "zod";
+import { Country } from "@/interfaces";
 
 const formInputs = z.object({
   firstName: z.string().min(2),
@@ -20,7 +21,11 @@ const formInputs = z.object({
 
 type FormInputs = z.infer<typeof formInputs>;
 
-export const AddressForm = () => {
+interface Props {
+  countries: Country[];
+}
+
+export const AddressForm = ({ countries }: Props) => {
   const {
     handleSubmit,
     register,
@@ -98,7 +103,11 @@ export const AddressForm = () => {
           {...register("country")}
         >
           <option value="">[ Seleccione ]</option>
-          <option value="CRI">Costa Rica</option>
+          {countries.map((country) => (
+            <option key={country.id} value={country.id}>
+              {country.name}
+            </option>
+          ))}
         </select>
       </div>
 
