@@ -1,5 +1,6 @@
 import { initialData } from "./seed";
 import prisma from "../lib/prisma";
+import { countries } from "./seed-countries";
 
 // se crea esto para que al ejecutar el comando npm run seed se obtengan todos los productos
 //  se le crea su propio tsconfig para que se pueda ejecutar el comando y funcione
@@ -10,19 +11,29 @@ async function main() {
   // 1. borrar registros previos
   // no se puede realizar el promise.all por que al haber relacion entre ellos si se elimina uno antes
   // entonces no podria tener relacion es por esto que se deja de a uno
+  // se elimina primero las imagenes por tener dependencia con productos estas no pueden quedar huerfanas y asi mismo
+  // con productos y categoria
 
   // Promise.all([
   await prisma.user.deleteMany();
+  await prisma.country.deleteMany();
+
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
   // ]);
 
-  //2. crear las categorias
-
   const { categories, products, users } = initialData;
 
+  // crear users
+
   await prisma.user.createMany({ data: users });
+
+  // Crear countries
+
+  await prisma.country.createMany({ data: countries });
+
+  //2. crear las categorias
 
   const categoritesDataSend = categories.map((name) => ({ name }));
 
