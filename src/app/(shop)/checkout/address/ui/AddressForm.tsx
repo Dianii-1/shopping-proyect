@@ -8,6 +8,8 @@ import * as z from "zod";
 import { Country } from "@/interfaces";
 import { useStateAddress } from "@/store";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { setUserAddress } from "@/actions";
 
 const formInputs = z.object({
   firstName: z.string().min(2),
@@ -30,6 +32,7 @@ interface Props {
 export const AddressForm = ({ countries }: Props) => {
   const { setAddress, getAddress } = useStateAddress();
   const address = getAddress();
+  const { data: session } = useSession({ required: true });
 
   const {
     handleSubmit,
@@ -39,14 +42,17 @@ export const AddressForm = ({ countries }: Props) => {
   } = useForm<FormInputs>({ resolver: zodResolver(formInputs) });
 
   const onSubmit = (data: FormInputs) => {
-    console.log({ data });
+    const { rememberAddress, ...restAddress } = data;
     setAddress(data);
+
+    if (rememberAddress) {
+      setUserAddress(restAddress, session!.user.id);
+    } else {
+    }
   };
 
   useEffect(() => {
-    console.log(address.firstName);
     if (address.firstName) {
-      console.log("entre");
       reset(address);
     }
   }, []);
