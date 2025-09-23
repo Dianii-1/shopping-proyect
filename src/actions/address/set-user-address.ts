@@ -1,3 +1,4 @@
+"use server";
 import { Address } from "@/interfaces";
 import prisma from "@/lib/prisma";
 
@@ -33,7 +34,7 @@ const createOrreplaceAddress = async (address: Address, userId: string) => {
 
     return updateAddress;
   } catch (error) {
-    console.log(error);
+    console.log("error create", error);
     throw new Error("No se pudo crear la direccion");
   }
 };
@@ -46,7 +47,7 @@ export const setUserAddress = async (address: Address, userId: string) => {
       address: newAddress,
     };
   } catch (error) {
-    console.log(error);
+    console.log("error set", error);
     return {
       ok: false,
       message: "No se pudo grabar la direccion",
