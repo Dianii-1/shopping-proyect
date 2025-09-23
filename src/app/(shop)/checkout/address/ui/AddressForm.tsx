@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import * as z from "zod";
 import { Country } from "@/interfaces";
+import { useStateAddress } from "@/store";
+import { useEffect } from "react";
 
 const formInputs = z.object({
   firstName: z.string().min(2),
@@ -26,15 +28,28 @@ interface Props {
 }
 
 export const AddressForm = ({ countries }: Props) => {
+  const { setAddress, getAddress } = useStateAddress();
+  const address = getAddress();
+
   const {
     handleSubmit,
     register,
     formState: { isValid },
+    reset,
   } = useForm<FormInputs>({ resolver: zodResolver(formInputs) });
 
   const onSubmit = (data: FormInputs) => {
     console.log({ data });
+    setAddress(data);
   };
+
+  useEffect(() => {
+    console.log(address.firstName);
+    if (address.firstName) {
+      console.log("entre");
+      reset(address);
+    }
+  }, []);
 
   //   Todo: Crear validaciones con zod
   return (
