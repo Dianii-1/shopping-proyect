@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import * as z from "zod";
-import { Country } from "@/interfaces";
+import { Address, Country } from "@/interfaces";
 import { useStateAddress } from "@/store";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -27,9 +27,10 @@ type FormInputs = z.infer<typeof formInputs>;
 
 interface Props {
   countries: Country[];
+  userStoreAddress?: Partial<Address>;
 }
 
-export const AddressForm = ({ countries }: Props) => {
+export const AddressForm = ({ countries, userStoreAddress = {} }: Props) => {
   const { setAddress, getAddress } = useStateAddress();
   const address = getAddress();
   const { data: session } = useSession({ required: true });
@@ -39,7 +40,10 @@ export const AddressForm = ({ countries }: Props) => {
     register,
     formState: { isValid },
     reset,
-  } = useForm<FormInputs>({ resolver: zodResolver(formInputs) });
+  } = useForm<FormInputs>({
+    resolver: zodResolver(formInputs),
+    defaultValues: { ...(userStoreAddress as any), rememberAddress: false },
+  });
 
   const onSubmit = (data: FormInputs) => {
     const { rememberAddress, ...restAddress } = data;
