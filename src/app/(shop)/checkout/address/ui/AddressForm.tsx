@@ -48,14 +48,13 @@ export const AddressForm = ({ countries }: Props) => {
     if (rememberAddress) {
       setUserAddress(restAddress, session!.user.id);
     } else {
+      deleteUserAddress(session!.user.id);
     }
   };
 
   useEffect(() => {
     if (address.firstName) {
       reset(address);
-    } else {
-      deleteUserAddress(session!.user.id);
     }
   }, []);
 
