@@ -10,6 +10,7 @@ import { useStateAddress } from "@/store";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { setUserAddress, deleteUserAddress } from "@/actions";
+import { useRouter } from "next/navigation";
 
 const formInputs = z.object({
   firstName: z.string().min(2),
@@ -31,6 +32,7 @@ interface Props {
 }
 
 export const AddressForm = ({ countries, userStoreAddress = {} }: Props) => {
+  const router = useRouter();
   const { setAddress, getAddress } = useStateAddress();
   const address = getAddress();
   const { data: session } = useSession({ required: true });
@@ -45,15 +47,17 @@ export const AddressForm = ({ countries, userStoreAddress = {} }: Props) => {
     defaultValues: { ...(userStoreAddress as any), rememberAddress: false },
   });
 
-  const onSubmit = (data: FormInputs) => {
+  const onSubmit = async (data: FormInputs) => {
     const { rememberAddress, ...restAddress } = data;
     setAddress(data);
 
     if (rememberAddress) {
-      setUserAddress(restAddress, session!.user.id);
+      await setUserAddress(restAddress, session!.user.id);
     } else {
-      deleteUserAddress(session!.user.id);
+      await deleteUserAddress(session!.user.id);
     }
+
+    router.push("/checkout");
   };
 
   useEffect(() => {
