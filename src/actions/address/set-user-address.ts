@@ -11,6 +11,7 @@ const createOrreplaceAddress = async (address: Address, userId: string) => {
     const addressToSave = {
       userId: userId,
       address: address.address,
+      address2: address.address2,
       city: address.city,
       countryId: address.country,
       firstName: address.firstName,
