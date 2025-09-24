@@ -9,3 +9,4 @@ export * from "./auth/register";
 export * from "./country/get-country";
 
 export * from "./address/set-user-address";
+export * from "./address/delete-user-address";
