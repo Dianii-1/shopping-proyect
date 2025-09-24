@@ -9,7 +9,7 @@ import { Country } from "@/interfaces";
 import { useStateAddress } from "@/store";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { setUserAddress } from "@/actions";
+import { setUserAddress, deleteUserAddress } from "@/actions";
 
 const formInputs = z.object({
   firstName: z.string().min(2),
@@ -54,6 +54,8 @@ export const AddressForm = ({ countries }: Props) => {
   useEffect(() => {
     if (address.firstName) {
       reset(address);
+    } else {
+      deleteUserAddress(session!.user.id);
     }
   }, []);
 
