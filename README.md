@@ -9,7 +9,8 @@
 4. Levantar la base de datos ```docker compose up -d```
 5. Correr las migraciones de prisma ```npx prisma migrate dev```
 6. Ejecutar el seed ```npm run seed```
-7. Correr el proyecto ```npm run dev```
+7. Limpiar el localstorage del navegador
+8. Correr el proyecto ```npm run dev```
 
 ## Comandos importantes
 
