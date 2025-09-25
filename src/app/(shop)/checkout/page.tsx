@@ -1,4 +1,4 @@
-import { ProductsInOrder, Title } from "@/components";
+import { PlaceOrder, ProductsInOrder, Title } from "@/components";
 import Link from "next/link";
 
 export default function () {
@@ -19,79 +19,9 @@ export default function () {
             {/* Items */}
 
             <ProductsInOrder />
-            {/* {productsInCart.map((product) => (
-              <div key={product.slug} className="flex mb-5">
-                <Image
-                  alt={product.title}
-                  src={`/products/${product.images[0]}`}
-                  width={100}
-                  height={100}
-                  className="rounded mr-5"
-                />
-                <div>
-                  <p>{product.title}</p>
-                  <p>${product.price} X 3</p>
-                  <p className="font-bold">Subtotal: {product.price * 3}</p>
-                </div>
-              </div>
-            ))} */}
           </div>
           {/* Checkout */}
-
-          <div className="bg-white shadow-xl rounded-xl p-7 h-fit">
-            <h2 className="text-2xl mb-2 font-bold">Dirección de entrega</h2>
-            <div className="mb-10">
-              <p className="text-xl">Diana Pinilla</p>
-              <p>Av. Siempre viva 123</p>
-              <p>Col. centro</p>
-              <p>Alcaldia centro mayor</p>
-              <p>Ciudad de mexico</p>
-              <p>CP. 231233</p>
-              <p>3003003030</p>
-            </div>
-
-            {/* divider */}
-
-            <div className="w-full h-0.5 rounded bg-gray-200 mb-10" />
-
-            <h2 className="text-2xl mb-2">Resumen de orden</h2>
-            <div className="grid grid-cols-2">
-              <span>No. Productos</span>
-              <span className="text-right">$100</span>
-
-              <span>Subtotal</span>
-              <span className="text-right">$100</span>
-
-              <span>Impuestos (15%)</span>
-              <span className="text-right">$100</span>
-
-              <span className="text-2xl mt-5">Total:</span>
-              <span className="text-right text-2xl mt-5">$100</span>
-            </div>
-
-            <div className="mt-5 mb-2 w-full">
-              <p className="mb-5">
-                {/* Disclaimer */}
-                <span className="text-xs">
-                  Al hacer clic en "Colocar orden", aceptas nuestros{" "}
-                  <a href="#" className="underline">
-                    términos y condiciones
-                  </a>{" "}
-                  y{" "}
-                  <a href="#" className="underline">
-                    política de privacidad
-                  </a>
-                </span>
-              </p>
-
-              <Link
-                className="flex btn-primary justify-center"
-                href={"/orders/123"}
-              >
-                Colocar orden
-              </Link>
-            </div>
-          </div>
+          <PlaceOrder />
         </div>
       </div>
     </div>
