@@ -1,13 +1,5 @@
-import { Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
+import { ProductsInOrder, Title } from "@/components";
 import Link from "next/link";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
 
 export default function () {
   return (
@@ -26,7 +18,8 @@ export default function () {
 
             {/* Items */}
 
-            {productsInCart.map((product) => (
+            <ProductsInOrder />
+            {/* {productsInCart.map((product) => (
               <div key={product.slug} className="flex mb-5">
                 <Image
                   alt={product.title}
@@ -41,7 +34,7 @@ export default function () {
                   <p className="font-bold">Subtotal: {product.price * 3}</p>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
           {/* Checkout */}
 
