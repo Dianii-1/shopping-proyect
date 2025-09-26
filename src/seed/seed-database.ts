@@ -15,6 +15,11 @@ async function main() {
   // con productos y categoria
 
   // Promise.all([
+
+  await prisma.orderAddress.deleteMany();
+  await prisma.orderItem.deleteMany();
+  await prisma.order.deleteMany();
+
   await prisma.userAddress.deleteMany();
   await prisma.user.deleteMany();
   await prisma.country.deleteMany();
