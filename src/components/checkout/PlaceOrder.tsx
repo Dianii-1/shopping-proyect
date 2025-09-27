@@ -1,5 +1,6 @@
 "use client";
 
+import { placeOrder } from "@/actions";
 import { useCartStore, useStateAddress } from "@/store";
 import { currencyFormat } from "@/utils";
 import clsx from "clsx";
@@ -29,6 +30,9 @@ export const PlaceOrder = () => {
     console.log({ address, productsToOrder });
 
     // Todo: server action
+
+    const res = await placeOrder(productsToOrder, address);
+    console.log({ res });
   };
 
   useEffect(() => {
