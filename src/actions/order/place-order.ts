@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { Address, Size } from "@/interfaces";
+import prisma from "@/lib/prisma";
 
 interface ProductToOrder {
   productId: string;
@@ -15,6 +16,7 @@ export const placeOrder = async (
   const session = await auth();
   const userId = session?.user.id;
 
+  // Verificar sesión de usuario
   if (!userId) {
     return {
       ok: false,
@@ -22,5 +24,24 @@ export const placeOrder = async (
     };
   }
 
-  console.log({ productIds, address, userId });
+  // Obtener la información de los productos
+  // Recordar que se pueden llevar 2 o mas productos con el mismo Id
+
+  // Aca se buscan todos los productos en la tabla de base de datos cuyo id exista en los productIds que estoy comprando
+
+  const products = await prisma.product.findMany({
+    where: {
+      id: {
+        in: productIds.map((p) => p.productId),
+      },
+    },
+  });
+
+  // calcular montos // encabezado
+  // el reduce ayuda a devolver un valor realizando el calculo, primero se inicia en 0 y se toma el count que en el primer momento es 0
+  // luego se toma el producto(p) y se realiza la suma
+
+  const itemsInOrder = productIds.reduce((count, p) => count + p.quantity, 0);
+
+  // calcular los totales de tax, subtotal t total
 };
