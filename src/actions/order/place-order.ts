@@ -89,10 +89,19 @@ export const placeOrder = async (
         },
       },
     });
-    // 3. Crear la dirección de la orden
+    // 3. Crear la dirección de la orden (tambien hubiera podido crearlo directamente en la orden como se hizo con orderItem)
+    const { country, ...restAddress } = address;
+    const orderAddress = await tsx.orderAddress.create({
+      data: {
+        ...restAddress,
+        countryId: country,
+        orderId: order.id,
+      },
+    });
 
     return {
       order: order,
+      orderAddress: orderAddress,
     };
   });
 };
