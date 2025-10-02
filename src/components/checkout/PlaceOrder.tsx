@@ -4,19 +4,22 @@ import { placeOrder } from "@/actions";
 import { useCartStore, useStateAddress } from "@/store";
 import { currencyFormat } from "@/utils";
 import clsx from "clsx";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/shallow";
 
 export const PlaceOrder = () => {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { address } = useStateAddress();
   const { itemsInCart, subTotal, tax, total } = useCartStore(
     useShallow((state) => state.getSumaryInformation())
   );
 
-  const { cart } = useCartStore();
+  const { cart, clearCar } = useCartStore();
 
   const onPlaceOrder = async () => {
     setIsPlaceOrder(true);
@@ -29,10 +32,18 @@ export const PlaceOrder = () => {
 
     console.log({ address, productsToOrder });
 
-    // Todo: server action
-
+    // server action
     const res = await placeOrder(productsToOrder, address);
-    console.log({ res });
+    if (!res.ok) {
+      setIsPlaceOrder(false);
+      setErrorMessage(res.message);
+      return;
+    }
+
+    // Aca todo salio bien
+    // se limpia el carrito y se redirecciona
+    clearCar();
+    router.replace("/orders/" + res.order?.id);
   };
 
   useEffect(() => {
@@ -42,6 +53,11 @@ export const PlaceOrder = () => {
   if (!loaded) {
     return <p>Cragando...</p>;
   }
+
+  if (cart.length === 0 && loaded) {
+    redirect("/empty");
+  }
+
   return (
     <div className="bg-white shadow-xl rounded-xl p-7 h-fit">
       <h2 className="text-2xl mb-2 font-bold">Dirección de entrega</h2>
@@ -93,6 +109,8 @@ export const PlaceOrder = () => {
             </a>
           </span>
         </p>
+
+        <p className="text-red-500 text-sm mb-1">{errorMessage}</p>
 
         <button
           // href={"/orders/123"}
