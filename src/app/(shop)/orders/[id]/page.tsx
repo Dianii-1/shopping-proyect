@@ -1,4 +1,3 @@
-import { getOrderById } from "@/actions/order/get-order-by-id";
 import { Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import clsx from "clsx";
@@ -6,6 +5,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { IoCardOutline } from "react-icons/io5";
 import { currencyFormat } from "../../../../utils/currencyFormat";
+import { getOrderById } from "@/actions";
 
 const productsInCart = [
   initialData.products[0],
