@@ -81,7 +81,9 @@ export const PlaceOrder = () => {
       <h2 className="text-2xl mb-2">Resumen de orden</h2>
       <div className="grid grid-cols-2">
         <span>No. Productos</span>
-        <span className="text-right">{itemsInCart}</span>
+        <span className="text-right">
+          {itemsInCart === 1 ? "1 articulo" : `${itemsInCart} articulos`}
+        </span>
 
         <span>Subtotal</span>
         <span className="text-right">{currencyFormat(subTotal)}</span>
