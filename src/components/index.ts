@@ -20,4 +20,6 @@ export { OrderSumary } from "./cart/OrderSumary";
 export { ProductsInOrder } from "./checkout/ProductsInOrder";
 export { PlaceOrder } from "./checkout/PlaceOrder";
 
-export * from "./provider/Provider";
+export * from "./providers/Providers";
+
+export { PaypalButton } from "./paypal/PaypalButton";
