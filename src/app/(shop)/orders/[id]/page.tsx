@@ -1,17 +1,10 @@
-import { Title } from "@/components";
-import { initialData } from "@/seed/seed";
+import { PaypalButton, Title } from "@/components";
 import clsx from "clsx";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { IoCardOutline } from "react-icons/io5";
 import { currencyFormat } from "../../../../utils/currencyFormat";
 import { getOrderById } from "@/actions";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
 
 interface Props {
   params: Promise<{
@@ -21,15 +14,11 @@ interface Props {
 export default async function ({ params }: Props) {
   const { id } = await params;
 
-  // Todo: server action
-
   const { ok, order } = await getOrderById(id);
 
   if (!ok) {
     redirect("/");
   }
-
-  // Todo: Verificar Id
 
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
@@ -121,7 +110,7 @@ export default async function ({ params }: Props) {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-              <div
+              {/* <div
                 className={clsx(
                   "flex gap-2 items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
                   {
@@ -132,7 +121,8 @@ export default async function ({ params }: Props) {
               >
                 <IoCardOutline size={30} />
                 <span>{order!.isPaid ? "Pagado" : "Sin pagar"}</span>
-              </div>
+              </div> */}
+              <PaypalButton />
             </div>
           </div>
         </div>
