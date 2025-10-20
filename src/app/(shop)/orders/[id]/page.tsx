@@ -110,19 +110,7 @@ export default async function ({ params }: Props) {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-              {/* <div
-                className={clsx(
-                  "flex gap-2 items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                  {
-                    "bg-red-500": !order!.isPaid,
-                    "bg-green-700": order!.isPaid,
-                  }
-                )}
-              >
-                <IoCardOutline size={30} />
-                <span>{order!.isPaid ? "Pagado" : "Sin pagar"}</span>
-              </div> */}
-              <PaypalButton />
+              <PaypalButton amount={order!.total} orderId={order!.id} />
             </div>
           </div>
         </div>
