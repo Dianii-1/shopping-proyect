@@ -23,3 +23,5 @@ export { PlaceOrder } from "./checkout/PlaceOrder";
 export * from "./providers/Providers";
 
 export { PaypalButton } from "./paypal/PaypalButton";
+
+export { OrderStatus } from "./orders/OrderStatus";
