@@ -61,5 +61,11 @@ export const PaypalButton = ({ amount, orderId }: Props) => {
     await paypalCheckPayment(details.id!);
   };
 
-  return <PayPalButtons createOrder={createOrder} onApprove={onApprove} />;
+  return (
+    <PayPalButtons
+      createOrder={createOrder}
+      onApprove={onApprove}
+      className="relative z-0"
+    />
+  );
 };
