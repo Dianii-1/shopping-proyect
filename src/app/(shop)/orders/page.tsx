@@ -14,7 +14,7 @@ export default async function () {
 
   return (
     <>
-      <Title title="Orders" />
+      <Title title="Mis Ordenes" />
 
       <div className="mb-10">
         <table className="min-w-full">
