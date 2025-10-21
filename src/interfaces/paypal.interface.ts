@@ -17,6 +17,7 @@ export interface PurchaseUnit {
   reference_id: string;
   amount: Amount;
   payee: Payee;
+  invoice_id: string;
 }
 
 export interface Amount {
