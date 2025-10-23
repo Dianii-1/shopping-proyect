@@ -1,4 +1,6 @@
 // https://tailwindcomponents.com/component/hoverable-table
+export const revalidate = 0;
+
 import { getPaginatedOrders } from "@/actions";
 import { Title } from "@/components";
 import clsx from "clsx";
