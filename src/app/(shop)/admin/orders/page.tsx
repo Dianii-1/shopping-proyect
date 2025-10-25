@@ -2,7 +2,7 @@
 export const revalidate = 0;
 
 import { getPaginatedOrders } from "@/actions";
-import { Title } from "@/components";
+import { Pagination, Title } from "@/components";
 import clsx from "clsx";
 
 import Link from "next/link";
@@ -88,6 +88,7 @@ export default async function () {
             ))}
           </tbody>
         </table>
+        <Pagination totalPages={1} />
       </div>
     </>
   );
