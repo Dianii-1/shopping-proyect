@@ -1,12 +1,13 @@
 "use client";
 
-import { Category, Product } from "@/interfaces";
+import { Category, Product, ProductImage } from "@/interfaces";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import z, { number } from "zod";
 
 interface Props {
-  product: Product;
+  product: Product & { ProductImage?: ProductImage[] };
   categories: Category[];
 }
 
@@ -158,6 +159,29 @@ export const ProductForm = ({ product, categories }: Props) => {
               className="p-2 border rounded-md bg-gray-200"
               accept="image/png, image/jpeg"
             />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {product.ProductImage?.map((image) => (
+              <div key={image.id}>
+                <Image
+                  alt={product.title}
+                  className="rounded-t shadow-md"
+                  src={`/products/${image.url}`}
+                  width={300}
+                  height={300}
+                />
+                <button
+                  type="button"
+                  className="btn-danger rounded-b w-full"
+                  onClick={() => {
+                    console.log(image.id, image.url);
+                  }}
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
