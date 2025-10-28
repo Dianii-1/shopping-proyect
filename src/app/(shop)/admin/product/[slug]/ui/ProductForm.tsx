@@ -2,6 +2,7 @@
 
 import { Category, Product, ProductImage } from "@/interfaces";
 import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import z, { number } from "zod";
@@ -34,6 +35,9 @@ export const ProductForm = ({ product, categories }: Props) => {
     handleSubmit,
     formState: { isValid },
     register,
+    getValues,
+    setValue,
+    watch,
   } = useForm<FormInputs>({
     resolver: zodResolver(formInputs),
     defaultValues: {
@@ -48,6 +52,15 @@ export const ProductForm = ({ product, categories }: Props) => {
   const onSubmit = async (data: FormInputs) => {
     console.log({ data });
     console.log(product);
+  };
+
+  const onSizesChange = (size: string) => {
+    // este crea un nuevo set y no admite duplicados
+    const sizes = new Set(getValues("sizes"));
+
+    sizes.has(size) ? sizes.delete(size) : sizes.add(size);
+
+    setValue("sizes", Array.from(sizes));
   };
 
   return (
@@ -139,12 +152,19 @@ export const ProductForm = ({ product, categories }: Props) => {
         {/* As checkboxes */}
         <div className="flex flex-col">
           <span>Tallas</span>
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap gap-2">
             {sizes.map((size) => (
               // bg-blue-500 text-white <--- si está seleccionado
               <div
                 key={size}
-                className="flex  items-center justify-center w-10 h-10 mr-2 border rounded-md"
+                className={clsx(
+                  "flex items-center justify-center p-2 w-14 h-10 border border-gray-400 rounded-md transition-all cursor-pointer",
+                  {
+                    "bg-blue-500 text-white border-0":
+                      watch("sizes").includes(size),
+                  }
+                )}
+                onClick={() => onSizesChange(size)}
               >
                 <span>{size}</span>
               </div>
