@@ -49,7 +49,7 @@ export const LoginForm = () => {
       <button
         className={clsx({
           "btn-primary": !isPending,
-          "bg-gay-600 text-white py-2 px-4 rounded transition-all": isPending,
+          "btn-disabled": isPending,
         })}
         disabled={isPending}
       >
