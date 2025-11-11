@@ -10,6 +10,7 @@ export { QuantitySelector } from "./product/quantity-selector/QuantitySelector";
 export { ProductSlideshow } from "./product/slideshow/ProductSlideshow";
 export { ProductMobileSlideshow } from "./product/slideshow/ProductMobileSlideshow";
 export { StockLabel } from "./product/stock-label/StockLabel";
+export { ProductImage } from "./product/product-image/ProductImage";
 
 export { ProductGrid } from "./products/product-grid/ProductGrid";
 export { ProductGridItem } from "./products/product-grid/ProductGridItem";
