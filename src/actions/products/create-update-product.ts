@@ -2,6 +2,7 @@
 
 import { Gender, Product, Size } from "@/generated/prisma";
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import { optional, z } from "zod";
 
 const productSchema = z.object({
@@ -39,42 +40,52 @@ export const createUpdateProduct = async (formdata: FormData) => {
 
   const { id, ...rest } = product;
 
-  const prismaTx = await prisma.$transaction(async (tx) => {
-    let productResult: Product;
-    const tags = rest.tags.split(",").map((tag) => tag.trim().toLowerCase());
-    if (id) {
-      // Actualizar
+  try {
+    const prismaTx = await prisma.$transaction(async (tx) => {
+      let productResult: Product;
+      const tags = rest.tags.split(",").map((tag) => tag.trim().toLowerCase());
+      if (id) {
+        // Actualizar
 
-      productResult = await prisma.product.update({
-        where: { id },
-        data: {
-          ...rest,
-          sizes: { set: rest.sizes as Size[] },
-          tags: { set: tags },
-        },
-      });
-    } else {
-      // crear
-      productResult = await prisma.product.create({
-        data: {
-          ...rest,
-          sizes: { set: rest.sizes as Size[] },
-          tags: { set: tags },
-        },
-      });
-    }
+        productResult = await prisma.product.update({
+          where: { id },
+          data: {
+            ...rest,
+            sizes: { set: rest.sizes as Size[] },
+            tags: { set: tags },
+          },
+        });
+      } else {
+        // crear
+        productResult = await prisma.product.create({
+          data: {
+            ...rest,
+            sizes: { set: rest.sizes as Size[] },
+            tags: { set: tags },
+          },
+        });
+      }
 
-    console.log({ productResult });
+      console.log({ productResult });
+
+      return {
+        productResult,
+      };
+    });
+
+    // Revalidate path
+    revalidatePath("/admin/products");
+    revalidatePath(`/admin/product/${product.slug}`);
+    revalidatePath(`/products/${product.slug}`);
 
     return {
-      productResult,
+      ok: true,
+      product: prismaTx.productResult,
     };
-  });
-
-  // Todo: Revalidate path
-
-  return {
-    ok: true,
-    // product: prismaTx,
-  };
+  } catch (error) {
+    return {
+      ok: false,
+      message: "Revisar logs, No se pudo actualizar/crear ",
+    };
+  }
 };
