@@ -5,11 +5,11 @@ import { Category, Product, ProductImage } from "@/interfaces";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
-import z, { number } from "zod";
+import { Resolver, useForm } from "react-hook-form";
+import z from "zod";
 
 interface Props {
-  product: Product & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductImage[] };
   categories: Category[];
 }
 
@@ -19,8 +19,14 @@ const formInputs = z.object({
   title: z.string(),
   slug: z.string(),
   description: z.string(),
-  price: z.number(),
-  inStock: z.number(),
+  price: z.coerce
+    .number()
+    .min(0)
+    .transform((val) => Number(val.toFixed(2))),
+  inStock: z.coerce
+    .number()
+    .min(1)
+    .transform((val) => Number(val.toFixed(0))),
   sizes: z.array(z.string()),
   tags: z.string(),
   gender: z.string(),
@@ -40,10 +46,10 @@ export const ProductForm = ({ product, categories }: Props) => {
     setValue,
     watch,
   } = useForm<FormInputs>({
-    resolver: zodResolver(formInputs),
+    resolver: zodResolver(formInputs) as Resolver<FormInputs>,
     defaultValues: {
       ...product,
-      tags: product.tags.join(", "),
+      tags: product.tags?.join(", "),
       sizes: product.sizes ?? [],
 
       // Todo imagenes
@@ -54,7 +60,10 @@ export const ProductForm = ({ product, categories }: Props) => {
     const formData = new FormData();
     const { ...productToSave } = data;
 
-    formData.append("id", product.id ?? "");
+    if (product.id) {
+      formData.append("id", product.id ?? "");
+    }
+
     formData.append("title", productToSave.title);
     formData.append("description", productToSave.description);
     formData.append("slug", productToSave.slug);
@@ -65,9 +74,9 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
 
-    const { ok, product: response } = await createUpdateProduct(formData);
+    const { ok } = await createUpdateProduct(formData);
 
-    console.log({ ok, response });
+    console.log({ ok });
   };
 
   const onSizesChange = (size: string) => {
@@ -165,6 +174,15 @@ export const ProductForm = ({ product, categories }: Props) => {
 
       {/* Selector de tallas y fotos */}
       <div className="w-full">
+        {/* InStock */}
+        <div className="flex flex-col mb-2">
+          <span>Inventario</span>
+          <input
+            type="number"
+            className="p-2 border rounded-md bg-gray-200"
+            {...register("inStock")}
+          />
+        </div>
         {/* As checkboxes */}
         <div className="flex flex-col">
           <span>Tallas</span>
@@ -201,7 +219,7 @@ export const ProductForm = ({ product, categories }: Props) => {
             {product.ProductImage?.map((image) => (
               <div key={image.id}>
                 <Image
-                  alt={product.title}
+                  alt={product.title ?? ""}
                   className="rounded-t shadow-md"
                   src={`/products/${image.url}`}
                   width={300}
