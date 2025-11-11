@@ -2,14 +2,9 @@
 export const revalidate = 0;
 
 import { getPaginatedProductsWithImages } from "@/actions";
-import { Pagination, Title } from "@/components";
+import { Pagination, ProductImage, Title } from "@/components";
 import { currencyFormat } from "@/utils";
-import clsx from "clsx";
-import Image from "next/image";
-
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { IoCardOutline } from "react-icons/io5";
 
 interface Props {
   searchParams: Promise<{
@@ -83,11 +78,12 @@ export default async function ({ searchParams }: Props) {
                 className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
               >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  <Link href={`product/${product.slug}`}>
-                    <Image
+                  <Link href={`/product/${product.slug}`}>
+                    <ProductImage
                       alt={product.title}
                       className="w-20 h-20 object-cover rounded"
-                      src={`/products/${product.ProductImage[0].url}`}
+                      // se le coloca el ? para que se envie nulo o indefinido
+                      src={product.ProductImage[0]?.url}
                       width={80}
                       height={80}
                     />

@@ -2,11 +2,10 @@
 
 import { useCartStore } from "@/store";
 import { QuantitySelector } from "../product/quantity-selector/QuantitySelector";
-import Image from "next/image";
-import { Value } from "../../generated/prisma/runtime/library";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ProductImage } from "../product/product-image/ProductImage";
 
 export const ProductsInCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
@@ -33,9 +32,9 @@ export const ProductsInCart = () => {
     <>
       {productsInCart.map((product) => (
         <div key={`${product.slug}-${product.size}`} className="flex mb-5">
-          <Image
+          <ProductImage
             alt={product.title}
-            src={`/products/${product.image}`}
+            src={product.image}
             width={100}
             height={100}
             className="rounded mr-5"
