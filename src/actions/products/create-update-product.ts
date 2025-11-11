@@ -1,6 +1,7 @@
 "use server";
 
-import { Gender } from "@/generated/prisma";
+import { Gender, Product, Size } from "@/generated/prisma";
+import prisma from "@/lib/prisma";
 import { optional, z } from "zod";
 
 const productSchema = z.object({
@@ -33,9 +34,34 @@ export const createUpdateProduct = async (formdata: FormData) => {
     };
   }
 
-  console.log(productParsed.data);
+  const product = productParsed.data;
+  product.slug = product.slug.toLowerCase().replace(/ /g, "").trim();
+
+  const { id, ...rest } = product;
+
+  const prismaTx = await prisma.$transaction(async (tx) => {
+    let productResult: Product;
+    const tags = rest.tags.split(",").map((tag) => tag.trim().toLowerCase());
+    if (id) {
+      // Actualizar
+
+      productResult = await prisma.product.update({
+        where: { id },
+        data: {
+          ...rest,
+          sizes: rest.sizes as Size[],
+          tags: tags,
+        },
+      });
+    }
+
+    return { product };
+  });
+
+  // Todo: Revalidate path
 
   return {
     ok: true,
+    product: prismaTx,
   };
 };
