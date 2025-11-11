@@ -5,6 +5,7 @@ import { Category, Product, ProductImage } from "@/interfaces";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Resolver, useForm } from "react-hook-form";
 import z from "zod";
 
@@ -56,6 +57,8 @@ export const ProductForm = ({ product, categories }: Props) => {
     },
   });
 
+  const router = useRouter();
+
   const onSubmit = async (data: FormInputs) => {
     const formData = new FormData();
     const { ...productToSave } = data;
@@ -74,9 +77,14 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
 
-    const { ok } = await createUpdateProduct(formData);
+    const { ok, product: response } = await createUpdateProduct(formData);
 
-    console.log({ ok });
+    if (!ok) {
+      alert("El producto no se pudo actualizar");
+      return;
+    }
+
+    router.replace(`/admin/product/${response?.slug}`);
   };
 
   const onSizesChange = (size: string) => {
