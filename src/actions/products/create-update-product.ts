@@ -49,19 +49,32 @@ export const createUpdateProduct = async (formdata: FormData) => {
         where: { id },
         data: {
           ...rest,
-          sizes: rest.sizes as Size[],
-          tags: tags,
+          sizes: { set: rest.sizes as Size[] },
+          tags: { set: tags },
+        },
+      });
+    } else {
+      // crear
+      productResult = await prisma.product.create({
+        data: {
+          ...rest,
+          sizes: { set: rest.sizes as Size[] },
+          tags: { set: tags },
         },
       });
     }
 
-    return { product };
+    console.log({ productResult });
+
+    return {
+      productResult,
+    };
   });
 
   // Todo: Revalidate path
 
   return {
     ok: true,
-    product: prismaTx,
+    // product: prismaTx,
   };
 };
