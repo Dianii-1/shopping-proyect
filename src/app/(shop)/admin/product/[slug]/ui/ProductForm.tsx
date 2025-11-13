@@ -1,6 +1,6 @@
 "use client";
 
-import { createUpdateProduct } from "@/actions";
+import { createUpdateProduct, deleteProductImage } from "@/actions";
 import { ProductImage } from "@/components";
 import {
   Category,
@@ -247,7 +247,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                   type="button"
                   className="btn-danger rounded-b w-full"
                   onClick={() => {
-                    console.log(image.id, image.url);
+                    deleteProductImage(image.id, image.url);
                   }}
                 >
                   Eliminar
