@@ -1,7 +1,12 @@
 "use client";
 
 import { createUpdateProduct } from "@/actions";
-import { Category, Product, ProductImage } from "@/interfaces";
+import { ProductImage } from "@/components";
+import {
+  Category,
+  Product,
+  ProductImage as ProductImageInterface,
+} from "@/interfaces";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Image from "next/image";
@@ -10,7 +15,7 @@ import { Resolver, useForm } from "react-hook-form";
 import z from "zod";
 
 interface Props {
-  product: Partial<Product> & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductImageInterface[] };
   categories: Category[];
 }
 
@@ -231,10 +236,10 @@ export const ProductForm = ({ product, categories }: Props) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {product.ProductImage?.map((image) => (
               <div key={image.id}>
-                <Image
+                <ProductImage
                   alt={product.title ?? ""}
                   className="rounded-t shadow-md"
-                  src={`/products/${image.url}`}
+                  src={image.url}
                   width={300}
                   height={300}
                 />
