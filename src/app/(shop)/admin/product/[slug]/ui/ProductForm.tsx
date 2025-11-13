@@ -32,7 +32,7 @@ const formInputs = z.object({
   tags: z.string(),
   gender: z.string(),
   categoryId: z.string(),
-  images: z.instanceof(FileList),
+  images: z.any().optional().nullable(),
 });
 
 type FormInputs = z.infer<typeof formInputs>;
