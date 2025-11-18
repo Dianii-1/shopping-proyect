@@ -1,12 +1,13 @@
 "use server";
 
 import { Gender, Product, Size } from "@/generated/prisma";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { v2 as cloudinary } from "cloudinary";
+import { getCloudinary } from "@/lib/cloudinary";
+// import { v2 as cloudinary } from "cloudinary";
 
-cloudinary.config(process.env.CLOUDINARY_URL ?? "");
+// cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 const productSchema = z.object({
   id: z.uuid().optional().nullable(),
@@ -26,6 +27,8 @@ const productSchema = z.object({
   tags: z.string(),
   gender: z.enum(Gender),
 });
+
+const prisma = getPrisma();
 
 export const createUpdateProduct = async (formdata: FormData) => {
   const data = Object.fromEntries(formdata);
@@ -109,6 +112,7 @@ export const createUpdateProduct = async (formdata: FormData) => {
 };
 
 const uploadImages = async (images: File[]) => {
+  const cloudinary = getCloudinary();
   try {
     const uploadPromises = images.map(async (image) => {
       try {

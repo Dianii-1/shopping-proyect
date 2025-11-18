@@ -1,9 +1,13 @@
 "use server";
-import prisma from "@/lib/prisma";
-import { v2 as cloudinary } from "cloudinary";
-import { revalidatePath } from "next/cache";
 
-cloudinary.config(process.env.CLOUDINARY_URL ?? "");
+import { getPrisma } from "@/lib/prisma";
+// import { v2 as cloudinary } from "cloudinary";
+import { revalidatePath } from "next/cache";
+import { getCloudinary } from "@/lib/cloudinary";
+
+// cloudinary.config(process.env.CLOUDINARY_URL ?? "");
+
+const prisma = getPrisma();
 
 export const deleteProductImage = async (imageId: number, imageUrl: string) => {
   if (!imageUrl.startsWith("http")) {
@@ -18,6 +22,7 @@ export const deleteProductImage = async (imageId: number, imageUrl: string) => {
   // quitando la extencion de documento
 
   const imageName = imageUrl.split("/").pop()?.split(".")[0] ?? "";
+  const cloudinary = getCloudinary();
 
   try {
     await cloudinary.uploader.destroy(imageName);
