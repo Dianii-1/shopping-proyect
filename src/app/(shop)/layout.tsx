@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { Sidebar, TopMenu } from "@/components";
 
 export default function ShopLayout({
