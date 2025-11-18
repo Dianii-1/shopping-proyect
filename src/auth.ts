@@ -2,7 +2,9 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
+import { getPrisma } from "@/lib/prisma";
 
+const prisma = getPrisma();
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
@@ -50,16 +52,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user = token.data as any;
       return session;
     },
-    // authorized({ auth, request: { nextUrl } }) {
-    //   const isLoggedIn = !!auth?.user;
-    //   const isOnDashboard = nextUrl.pathname.startsWith("/checkout/address");
-    //   if (isOnDashboard) {
-    //     if (isLoggedIn) return true;
-    //     return Response.redirect(new URL("/auth/login")); // Redirect unauthenticated users to login page
-    //   } else if (isLoggedIn) {
-    //     return true;
-    //   }
-    //   return true;
-    // },
   },
 });

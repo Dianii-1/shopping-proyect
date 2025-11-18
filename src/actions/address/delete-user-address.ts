@@ -1,6 +1,7 @@
 "use server";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
+const prisma = getPrisma();
 export const deleteUserAddress = async (userId: string) => {
   try {
     await prisma.userAddress.delete({ where: { userId } });

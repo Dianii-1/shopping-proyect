@@ -1,7 +1,8 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
+const prisma = getPrisma();
 export const setTransactionId = async (
   orderId: string,
   transactionId: string

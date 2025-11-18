@@ -1,7 +1,7 @@
 "use server";
+
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
-import { redirect } from "next/dist/server/api-utils";
 
 export async function authenticate(
   prevState: string | undefined,
@@ -29,9 +29,21 @@ export async function authenticate(
 
 export async function login(email: string, password: string) {
   try {
-    await signIn("credentials", { email, password, redirect: false });
+    // await signIn("credentials", { email, password, redirect: false });
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    if (!result || result.error) {
+      return { ok: false, message: result?.error || "Invalid credentials." };
+    }
+    return { ok: true };
   } catch (error) {
     console.log(error);
+    if (error instanceof AuthError) {
+      return { ok: false, message: "Invalid credentials." };
+    }
     return {
       ok: false,
       message: "No se pudo iniciar sesión",

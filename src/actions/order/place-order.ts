@@ -2,13 +2,15 @@
 
 import { auth } from "@/auth";
 import { Address, Size } from "@/interfaces";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 interface ProductToOrder {
   productId: string;
   quantity: number;
   size: Size;
 }
+
+const prisma = getPrisma();
 export const placeOrder = async (
   productIds: ProductToOrder[],
   address: Address

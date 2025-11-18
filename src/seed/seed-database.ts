@@ -1,5 +1,5 @@
 import { initialData } from "./seed";
-import prisma from "../lib/prisma";
+import { getPrisma } from "../lib/prisma";
 import { countries } from "./seed-countries";
 
 // se crea esto para que al ejecutar el comando npm run seed se obtengan todos los productos
@@ -7,6 +7,7 @@ import { countries } from "./seed-countries";
 // para crear el archivo tsconfig se realiza (cd src/seed) para entrar a esta carpeta
 //  luego se ejecuta el comando npx tsc --init
 
+const prisma = getPrisma();
 async function main() {
   // 1. borrar registros previos
   // no se puede realizar el promise.all por que al haber relacion entre ellos si se elimina uno antes

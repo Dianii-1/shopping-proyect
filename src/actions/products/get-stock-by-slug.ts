@@ -1,7 +1,8 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
+const prisma = getPrisma();
 export const getStockBySlug = async (slug: string): Promise<number> => {
   try {
     const stock = await prisma?.product.findFirst({

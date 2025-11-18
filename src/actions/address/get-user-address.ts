@@ -1,7 +1,8 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
+const prisma = getPrisma();
 export const getUserAddress = async (userId: string) => {
   try {
     const address = await prisma.userAddress.findUnique({ where: { userId } });

@@ -1,7 +1,7 @@
 "use server";
 
 import { Gender } from "@/generated/prisma";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 interface PaginationOptions {
   page?: number;
@@ -9,6 +9,7 @@ interface PaginationOptions {
   gender?: Gender;
 }
 
+const prisma = getPrisma();
 export const getPaginatedProductsWithImages = async ({
   page = 1,
   take = 12,

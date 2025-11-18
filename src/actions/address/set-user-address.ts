@@ -1,7 +1,9 @@
 "use server";
-import { Address } from "@/interfaces";
-import prisma from "@/lib/prisma";
 
+import { Address } from "@/interfaces";
+import { getPrisma } from "@/lib/prisma";
+
+const prisma = getPrisma();
 const createOrreplaceAddress = async (address: Address, userId: string) => {
   try {
     const storedAddress = await prisma.userAddress.findUnique({

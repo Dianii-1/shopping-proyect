@@ -1,8 +1,9 @@
 "use server";
 
 import { auth } from "@/auth";
-import prisma from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
+const prisma = getPrisma();
 export const getOrderById = async (id: string) => {
   const session = await auth();
 
